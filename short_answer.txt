@@ -1,0 +1,112 @@
+Perfect Numbers
+---------------
+
+Q1. Roughly how long did it take your computer to do the search? How many perfect numbers were found and what were they?
+A1.
+1 second, 4 (6, 28, 496, 8128)
+
+Q2. Make a table of the timing results for `findPerfects` that you observed. (old-school table of text rows and columns is just fine)
+A2.
+size    |     time
+________|____________
+32000   |   0.892s
+64000   |   3.481s
+128000  |   13.810s
+256000  |   55.019s
+
+Q3. Does it take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000? Why or why not? Does it take the same amount of work for `findPerfects` to search the range of numbers from 1-1000 as it does to search the numbers from 1000-2000? Why or why not?
+A3.
+No, because isPerfect needs calls the divisorSum() function, which iterates for longer when it's inputed with a larger number.
+No, because similar to the first part of the question, findPerfects calls isPerfect which calls the divisorSum function, meaning a longer iteration is required for 1000-2000 compared to 1-1000.
+
+Q4. Extrapolate from the data you gathered and make a prediction: how long will it take `findPerfects` to reach the fifth perfect number?
+A4.
+It will take around 600,000 seconds, as it is the next value in this quadratic function after graphing the function.
+
+Q5. Do any of the tests still pass even with this broken function? Why or why not?
+A5.
+The tests pass now because the total for divisorSum is now 1 even when a negative number is passed. Therefore, when the 1 is returned from divisorSum and parsed into isPerfect, the (n != 0) boolean doesn't catch the error and therefore still returns a true statement.
+This is why the STUDENT_TEST("Checks if isPerfect is receiving a negative input") returns as expected: true.
+
+Q6. Explain your testing strategy for `smarterSum` and how you chose your specific test cases that lead you to be confident the function is working correctly.
+A6.
+I made the for loop for smarterSum similar to that of divisorSum, but ended the loop when the inputted n is less than or equal to the sqrt(n).
+I would've stopped here, however, the sum didn't add the total number to divisors greater than the sqrt(n), and in some cases like the number 36, this proved incorrect.
+The fix this error, I made another if statement that allowed the complements product number (aka if the product is 36, 2 and 18 are complements), would be added to the total.
+I also made an if statement that ensured that the complement of 1, aka the the number n wouldn't be added to the sum.
+
+Q7. Record your timing results for `findPerfectsSmarter` into a table.
+A7.
+size     |     time
+_________|____________
+1600000  |   3.103s
+3200000  |   8.536s
+6400000  |   23.638s
+12800000 |   66.405s
+
+Q8. Make a prediction: how long will `findPerfectsSmarter` take to reach the fifth perfect number?
+A8.
+Around 187.822 seconds because that's what follows the n*sqrt(n) function.
+
+Q9. Explain how you chose your specific test cases and why they lead you to be confident `findNthPerfectEuclid` is working correctly.
+A9.
+I chose the values of n to match with the values of p in the article provided. This way, every time I tested the Student Test, it came back as true because these numbers of n would allow for the perfect euclid to be tested as a perfect number with the isPerfect function.
+When this nth perfect euclid used an input that was the exponent in a real perfect euclid, this would return a isPerfect that was true, making sure that the function was working perfectly.
+
+Soundex
+-------
+
+Q10. What is the Soundex code for "Angelou"? What is the code for your own surname?
+A10.
+A524 = Angelou
+B000 = Bo
+
+Q11. Before writing any code, brainstorm your plan of attack and sketch how you might decompose the work into smaller tasks. Briefly describe your decomposition strategy.
+A11.
+Here's my strategy:
+
+1. Encode Surname Using Table:
+
+Initialize a helper class named encodedLetters.
+For each character char in lettersOnly:
+Determine its group based on the table and append the corresponding digit to encodedLetters.
+Table for Encoding:
+
+0: A, E, I, O, U, H, W, Y
+1: B, F, P, V
+2: C, G, J, K, Q, S, X, Z
+3: D, T
+4: L
+5: M, N
+6: R
+
+3. Coalesce Adjacent Duplicate Digits:
+
+Initialize a new helper function named coalesce
+Using a for loop, check if the neighboring digits are repeated.
+If they are not, add it to the returned string value in the function.
+
+4. Replace First Digit:
+
+Remove the first character from coalesce.
+Prepend coalesce with the first letter of the original surname in uppercase.
+
+5. Discard Zeros:
+with a new helper function, input a string, and extract only the values that are non-zero.
+
+6. Adjust Length to 4 Characters:
+
+If the length of coalesce is greater than 4:
+Truncate coalesce to its first 4 characters.
+Else if the length of coalescedSurname is less than 4:
+Append zeros to the end of coalesce until its length becomes 4.
+
+Q12. Think about one or more examples of a class of names that the Soundex system might not work well for. Explain what this class of names is and why the system might incorrectly group them or mis-categorize one of the names.
+A12.
+Names with inflections to them, they don't correspond to the American English alphabet or a person's name with letters that don't originate from English. When trying to find an encoded term for it, it might categorize it incorrectly.
+
+Q13. Suppose you are a software engineer working for the U.S. government. You have been tasked with implementing a system that collects names as part of the Census survey and analyzes these names using a phonetic algorithm. Your boss suggests using Soundex and notes that the algorithm is only expected to work for ASCII-encoded strings, since supporting Unicode would require extra work and time. What would your response be and why? What representational harms might result from building a system that exclusively uses Soundex and/or ASCII?
+A13.
+I would agree that only using ASCII or Soundex's systems would be efficient, however, it could be damaging to millions of Americas whose surnames don't perfectly align with this system.
+I would respond that since so many people would be affected, it's important to recode the encoding part of this algorithm so that the US government doesn't mis-represent or unidentify a resident living here. Since the census factors into House of Representatives, electoral colleges, and funding, the least the government can do is to provide that for millions of Americans by changing the system.
+
